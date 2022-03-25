@@ -2,7 +2,7 @@
 {%- let rec = self.inner() %}
 {%- let type_name = rec|type_name %}
 
-data class {{ type_name }} (
+{% if internalize %}internal {% endif %}data class {{ type_name }} (
     {%- for field in rec.fields() %}
     var {{ field.name()|var_name }}: {{ field|type_name -}}
     {%- match field.default_value() %}

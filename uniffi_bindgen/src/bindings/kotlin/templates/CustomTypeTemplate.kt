@@ -4,7 +4,7 @@
 internal typealias {{ outer|ffi_converter_name }} = {{ builtin|ffi_converter_name }}
 
 {%- when Some with (config) %}
-object {{ outer|ffi_converter_name }} {
+{% if internalize %}internal {% endif %}object {{ outer|ffi_converter_name }} {
     {#- Custom type config supplied, use it to convert the builtin type #}
     fun write(value: {{ self.type_name(config) }}, buf: RustBufferBuilder) {
         val builtinValue = {{ config.from_custom.render("value") }}

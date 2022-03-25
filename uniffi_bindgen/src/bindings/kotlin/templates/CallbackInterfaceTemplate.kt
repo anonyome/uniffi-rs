@@ -7,7 +7,7 @@
 
 // Declaration and FfiConverters for {{ type_name }} Callback Interface
 
-public interface {{ type_name }} {
+{% if internalize %}internal {% endif %}interface {{ type_name }} {
     {% for meth in cbi.methods() -%}
     fun {{ meth.name()|fn_name }}({% call kt::arg_list_decl(meth) %})
     {%- match meth.return_type() -%}

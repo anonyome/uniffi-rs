@@ -9,7 +9,7 @@
 {%- let type_name = e|type_name -%}
 {%- if e.is_flat() %}
 
-enum class {{ type_name }} {
+{% if internalize %}internal {% endif %}enum class {{ type_name }} {
     {% for variant in e.variants() -%}
     {{ variant.name()|enum_variant }}{% if loop.last %};{% else %},{% endif %}
     {%- endfor %}
@@ -37,7 +37,7 @@ internal object {{ e|ffi_converter_name }} {
 
 {% else %}
 
-sealed class {{ type_name }}{% if self.contains_object_references() %}: Disposable {% endif %} {
+{% if internalize %}internal {% endif %}sealed class {{ type_name }}{% if self.contains_object_references() %}: Disposable {% endif %} {
     {% for variant in e.variants() -%}
     {% if !variant.has_fields() -%}
     object {{ variant.name()|class_name }} : {{ type_name }}()

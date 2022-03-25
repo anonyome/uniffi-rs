@@ -59,10 +59,16 @@ pub struct KotlinCustomType {
     name: String,
     builtin: Type,
     config: Option<CustomTypeConfig>,
+    internalize: bool
 }
 
 impl KotlinCustomType {
-    pub fn new(name: String, builtin: Type, config: Option<CustomTypeConfig>) -> Self {
+    pub fn new(
+        name: String,
+        builtin: Type,
+        config: Option<CustomTypeConfig>,
+        internalize: bool,
+    ) -> Self {
         Self {
             outer: Type::Custom {
                 name: name.clone(),
@@ -71,6 +77,7 @@ impl KotlinCustomType {
             name,
             builtin,
             config,
+            internalize,
         }
     }
 
