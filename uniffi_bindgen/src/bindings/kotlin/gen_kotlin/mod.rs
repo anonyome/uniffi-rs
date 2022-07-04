@@ -250,17 +250,17 @@ impl KotlinCodeOracle {
             Type::Optional(ref inner) => {
                 let outer = type_.clone();
                 let inner = *inner.to_owned();
-                Box::new(compounds::OptionalCodeType::new(inner, outer, self.config.internalize()))
+                Box::new(compounds::OptionalCodeType::new(inner, outer))
             }
             Type::Sequence(ref inner) => {
                 let outer = type_.clone();
                 let inner = *inner.to_owned();
-                Box::new(compounds::SequenceCodeType::new(inner, outer, self.config.internalize()))
+                Box::new(compounds::SequenceCodeType::new(inner, outer))
             }
             Type::Map(ref inner) => {
                 let outer = type_.clone();
                 let inner = *inner.to_owned();
-                Box::new(compounds::MapCodeType::new(inner, outer, self.config.internalize()))
+                Box::new(compounds::MapCodeType::new(inner, outer))
             }
             Type::External { .. } => panic!("no support for external types yet"),
             Type::Custom { name, builtin } => Box::new(custom::CustomCodeType::new(

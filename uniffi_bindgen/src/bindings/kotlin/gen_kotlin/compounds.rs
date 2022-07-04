@@ -26,12 +26,11 @@ macro_rules! impl_code_type_for_compound {
             pub struct $T {
                 inner: TypeIdentifier,
                 outer: TypeIdentifier,
-                internalize: bool,
             }
 
             impl $T {
-                pub fn new(inner: TypeIdentifier, outer: TypeIdentifier, internalize: bool) -> Self {
-                    Self { inner, outer, internalize }
+                pub fn new(inner: TypeIdentifier, outer: TypeIdentifier) -> Self {
+                    Self { inner, outer }
                 }
                 fn inner(&self) -> &TypeIdentifier {
                     &self.inner
