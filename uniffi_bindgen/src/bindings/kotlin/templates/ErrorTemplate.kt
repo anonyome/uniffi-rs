@@ -3,7 +3,7 @@
 {%- let canonical_type_name = type_|error_canonical_name %}
 
 {% if e.is_flat() %}
-sealed class {{ type_name }}(message: String): Exception(message){% if contains_object_references %}, Disposable {% endif %} {
+internal sealed class {{ type_name }}(message: String): Exception(message){% if contains_object_references %}, Disposable {% endif %} {
         // Each variant is a nested class
         // Flat enums carries a string error message, so no special implementation is necessary.
         {% for variant in e.variants() -%}
@@ -15,7 +15,7 @@ sealed class {{ type_name }}(message: String): Exception(message){% if contains_
     }
 }
 {%- else %}
-sealed class {{ type_name }}: Exception(){% if contains_object_references %}, Disposable {% endif %} {
+internal sealed class {{ type_name }}: Exception(){% if contains_object_references %}, Disposable {% endif %} {
     // Each variant is a nested class
     {% for variant in e.variants() -%}
     {%- let variant_name = variant|error_variant|type_name %}
@@ -52,7 +52,7 @@ sealed class {{ type_name }}: Exception(){% if contains_object_references %}, Di
 }
 {%- endif %}
 
-public object {{ e|ffi_converter_name }} : FfiConverterRustBuffer<{{ type_name }}> {
+internal object {{ e|ffi_converter_name }} : FfiConverterRustBuffer<{{ type_name }}> {
     override fun read(buf: ByteBuffer): {{ type_name }} {
         {% if e.is_flat() %}
             return when(buf.getInt()) {

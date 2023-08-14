@@ -1,6 +1,6 @@
 {%- let inner_type_name = inner_type|type_name %}
 
-public object {{ ffi_converter_name }}: FfiConverterRustBuffer<{{ inner_type_name }}?> {
+internal object {{ ffi_converter_name }}: FfiConverterRustBuffer<{{ inner_type_name }}?> {
     override fun read(buf: ByteBuffer): {{ inner_type_name }}? {
         if (buf.get().toInt() == 0) {
             return null

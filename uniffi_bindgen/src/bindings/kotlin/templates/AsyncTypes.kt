@@ -11,7 +11,7 @@
 
 // Stores all active future callbacks to ensure they're not GC'ed while waiting for the Rust code to
 // complete the callback
-val uniffiActiveFutureCallbacks = mutableSetOf<Any>()
+internal val uniffiActiveFutureCallbacks = mutableSetOf<Any>()
 
 // FFI type for callback handlers
 {%- for callback_param in ci.iter_future_callback_params()|unique_ffi_types %}

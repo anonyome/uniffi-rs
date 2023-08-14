@@ -6,8 +6,8 @@
  * is needed because the UDL type name is used in function/method signatures.
  * It's also what we have an external type that references a custom type.
  */
-public typealias {{ name }} = {{ builtin|type_name }}
-public typealias {{ ffi_converter_name }} = {{ builtin|ffi_converter_name }}
+internal typealias {{ name }} = {{ builtin|type_name }}
+internal typealias {{ ffi_converter_name }} = {{ builtin|ffi_converter_name }}
 
 {%- when Some with (config) %}
 
@@ -21,7 +21,7 @@ public typealias {{ ffi_converter_name }} = {{ builtin|ffi_converter_name }}
  * is needed because the UDL type name is used in function/method signatures.
  * It's also what we have an external type that references a custom type.
  */
-public typealias {{ name }} = {{ concrete_type_name }}
+internal typealias {{ name }} = {{ concrete_type_name }}
 {%- else %}
 {%- endmatch %}
 
@@ -33,7 +33,7 @@ public typealias {{ name }} = {{ concrete_type_name }}
 {%- else %}
 {%- endmatch %}
 
-public object {{ ffi_converter_name }}: FfiConverter<{{ name }}, {{ ffi_type_name }}> {
+internal object {{ ffi_converter_name }}: FfiConverter<{{ name }}, {{ ffi_type_name }}> {
     override fun lift(value: {{ ffi_type_name }}): {{ name }} {
         val builtinValue = {{ builtin|lift_fn }}(value)
         return {{ config.into_custom.render("builtinValue") }}

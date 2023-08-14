@@ -1,6 +1,6 @@
 {%- let key_type_name = key_type|type_name %}
 {%- let value_type_name = value_type|type_name %}
-public object {{ ffi_converter_name }}: FfiConverterRustBuffer<Map<{{ key_type_name }}, {{ value_type_name }}>> {
+internal object {{ ffi_converter_name }}: FfiConverterRustBuffer<Map<{{ key_type_name }}, {{ value_type_name }}>> {
     override fun read(buf: ByteBuffer): Map<{{ key_type_name }}, {{ value_type_name }}> {
         // TODO: Once Kotlin's `buildMap` API is stabilized we should use it here.
         val items : MutableMap<{{ key_type_name }}, {{ value_type_name }}> = mutableMapOf()

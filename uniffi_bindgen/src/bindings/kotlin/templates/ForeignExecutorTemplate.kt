@@ -8,7 +8,7 @@ internal interface UniFfiRustTaskCallback : com.sun.jna.Callback {
     fun invoke(rustTaskData: Pointer?)
 }
 
-object UniFfiForeignExecutorCallback : com.sun.jna.Callback {
+internal object UniFfiForeignExecutorCallback : com.sun.jna.Callback {
     internal fun invoke(handle: USize, delayMs: Int, rustTask: UniFfiRustTaskCallback?, rustTaskData: Pointer?) {
         if (rustTask == null) {
             FfiConverterForeignExecutor.drop(handle)
@@ -24,7 +24,7 @@ object UniFfiForeignExecutorCallback : com.sun.jna.Callback {
     }
 }
 
-public object FfiConverterForeignExecutor: FfiConverter<CoroutineScope, USize> {
+internal object FfiConverterForeignExecutor: FfiConverter<CoroutineScope, USize> {
     internal val handleMap = UniFfiHandleMap<CoroutineScope>()
 
     internal fun drop(handle: USize) {

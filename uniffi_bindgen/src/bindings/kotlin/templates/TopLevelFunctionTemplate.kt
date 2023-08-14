@@ -6,7 +6,7 @@
 {%- endmatch %}
 
 @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
-suspend fun {{ func.name()|fn_name }}({%- call kt::arg_list_decl(func) -%}){% match func.return_type() %}{% when Some with (return_type) %} : {{ return_type|type_name }}{% when None %}{%- endmatch %} {
+internal suspend fun {{ func.name()|fn_name }}({%- call kt::arg_list_decl(func) -%}){% match func.return_type() %}{% when Some with (return_type) %} : {{ return_type|type_name }}{% when None %}{%- endmatch %} {
     // Create a new `CoroutineScope` for this operation, suspend the coroutine, and call the
     // scaffolding function, passing it one of the callback handlers from `AsyncTypes.kt`.
     return coroutineScope {
@@ -41,12 +41,12 @@ suspend fun {{ func.name()|fn_name }}({%- call kt::arg_list_decl(func) -%}){% ma
 {%- match func.return_type() -%}
 {%- when Some with (return_type) %}
 
-fun {{ func.name()|fn_name }}({%- call kt::arg_list_decl(func) -%}): {{ return_type|type_name }} {
+internal fun {{ func.name()|fn_name }}({%- call kt::arg_list_decl(func) -%}): {{ return_type|type_name }} {
     return {{ return_type|lift_fn }}({% call kt::to_ffi_call(func) %})
 }
 {% when None %}
 
-fun {{ func.name()|fn_name }}({% call kt::arg_list_decl(func) %}) =
+internal fun {{ func.name()|fn_name }}({% call kt::arg_list_decl(func) %}) =
     {% call kt::to_ffi_call(func) %}
 
 {% endmatch %}

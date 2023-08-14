@@ -21,10 +21,10 @@ internal open class RustCallStatus : Structure() {
     }
 }
 
-class InternalException(message: String) : Exception(message)
+internal class InternalException(message: String) : Exception(message)
 
 // Each top-level error class has a companion object that can lift the error from the call status's rust buffer
-interface CallStatusErrorHandler<E> {
+internal interface CallStatusErrorHandler<E> {
     fun lift(error_buf: RustBuffer.ByValue): E;
 }
 
@@ -61,7 +61,7 @@ private fun<E: Exception> checkCallStatus(errorHandler: CallStatusErrorHandler<E
 }
 
 // CallStatusErrorHandler implementation for times when we don't expect a CALL_ERROR
-object NullCallStatusErrorHandler: CallStatusErrorHandler<InternalException> {
+internal object NullCallStatusErrorHandler: CallStatusErrorHandler<InternalException> {
     override fun lift(error_buf: RustBuffer.ByValue): InternalException {
         RustBuffer.free(error_buf)
         return InternalException("Unexpected CALL_ERROR")
@@ -74,7 +74,7 @@ private inline fun <U> rustCall(callback: (RustCallStatus) -> U): U {
 }
 
 // IntegerType that matches Rust's `usize` / C's `size_t`
-public class USize(value: Long = 0) : IntegerType(Native.SIZE_T_SIZE, value, true) {
+internal class USize(value: Long = 0) : IntegerType(Native.SIZE_T_SIZE, value, true) {
     // This is needed to fill in the gaps of IntegerType's implementation of Number for Kotlin.
     override fun toByte() = toInt().toByte()
     // Needed until https://youtrack.jetbrains.com/issue/KT-47902 is fixed.

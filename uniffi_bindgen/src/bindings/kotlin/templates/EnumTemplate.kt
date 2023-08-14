@@ -7,13 +7,13 @@
 
 {%- if e.is_flat() %}
 
-enum class {{ type_name }} {
+internal enum class {{ type_name }} {
     {% for variant in e.variants() -%}
     {{ variant|variant_name }}{% if loop.last %};{% else %},{% endif %}
     {%- endfor %}
 }
 
-public object {{ e|ffi_converter_name }}: FfiConverterRustBuffer<{{ type_name }}> {
+internal object {{ e|ffi_converter_name }}: FfiConverterRustBuffer<{{ type_name }}> {
     override fun read(buf: ByteBuffer) = try {
         {{ type_name }}.values()[buf.getInt() - 1]
     } catch (e: IndexOutOfBoundsException) {
@@ -29,7 +29,7 @@ public object {{ e|ffi_converter_name }}: FfiConverterRustBuffer<{{ type_name }}
 
 {% else %}
 
-sealed class {{ type_name }}{% if contains_object_references %}: Disposable {% endif %} {
+internal sealed class {{ type_name }}{% if contains_object_references %}: Disposable {% endif %} {
     {% for variant in e.variants() -%}
     {% if !variant.has_fields() -%}
     object {{ variant|enum_variant|type_name }} : {{ type_name }}()
@@ -60,7 +60,7 @@ sealed class {{ type_name }}{% if contains_object_references %}: Disposable {% e
     {% endif %}
 }
 
-public object {{ e|ffi_converter_name }} : FfiConverterRustBuffer<{{ type_name }}>{
+internal object {{ e|ffi_converter_name }} : FfiConverterRustBuffer<{{ type_name }}>{
     override fun read(buf: ByteBuffer): {{ type_name }} {
         return when(buf.getInt()) {
             {%- for variant in e.variants() %}

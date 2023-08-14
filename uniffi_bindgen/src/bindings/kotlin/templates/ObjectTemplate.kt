@@ -3,7 +3,7 @@
 {{- self.add_import("java.util.concurrent.atomic.AtomicLong") }}
 {{- self.add_import("java.util.concurrent.atomic.AtomicBoolean") }}
 
-public interface {{ type_name }}Interface {
+internal interface {{ type_name }}Interface {
     {% for meth in obj.methods() -%}
     {%- match meth.throws_type() -%}
     {%- when Some with (throwable) -%}
@@ -23,7 +23,7 @@ public interface {{ type_name }}Interface {
     {% endfor %}
 }
 
-class {{ type_name }}(
+internal class {{ type_name }}(
     pointer: Pointer
 ) : FFIObject(pointer), {{ type_name }}Interface {
 
@@ -112,7 +112,7 @@ class {{ type_name }}(
     {% endif %}
 }
 
-public object {{ obj|ffi_converter_name }}: FfiConverter<{{ type_name }}, Pointer> {
+internal object {{ obj|ffi_converter_name }}: FfiConverter<{{ type_name }}, Pointer> {
     override fun lower(value: {{ type_name }}): Pointer = value.callWithPointer { it }
 
     override fun lift(value: Pointer): {{ type_name }} {
